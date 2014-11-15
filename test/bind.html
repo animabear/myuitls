@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bind</title>
+</head>
+<body>
+    <button id="btn">test</button>
+    <script src="../myutils.js"></script>
+    <script>
+        var obj = {
+            name: 'javascript'
+        };
+        var foo = function(e) {
+            alert(this.name);
+            alert(e.target);
+        }
+        utils.$('btn').addEventListener('click', utils.bind(foo, obj), false);
+        // 带参数调用
+        // utils.bind(foo, obj)(name, age);
+    </script>
+</body>
+</html>
