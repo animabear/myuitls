@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>localStorage</title>
+</head>
+<body>
+<input type="button" id="btn" value="btn">
+<input type="button" id="btn2" value="btn2">
+    <script>
+    var localStorageUtils = {
+        setItem: null,
+        getItem: null,
+        removeItem: null
+    };
+
+    // IE6/7 下使用userData存储数据
+    var _initStorageDom = function() {
+        if (!_initStorageDom.dataDom) {
+            try {
+                 _initStorageDom.dataDom = document.createElement('input');
+                 _initStorageDom.dataDom.type = 'hidden';
+                 _initStorageDom.dataDom.style.display = "none";
+                 _initStorageDom.dataDom.addBehavior('#default#userData');
+                 document.body.appendChild(_initStorageDom.dataDom);
+                 var exDate = new Date();
+                 exDate.setMinutes(exDate.getMinutes() + 5);
+                 _initStorageDom.dataDom.expires = exDate.toUTCString();
+             } catch(e) {
+                alert('fasle');
+                return false;
+             }
+             alert('true');
+        }
+        return true;
+    };
+
+    var hname = location.hostname ? location.hostname : 'localStatus';
+
+    if (window.sessionStorage) {
+        var storage = window.sessionStorage;
+
+        localStorageUtils.setItem = function(key, value) {
+            try {
+                storage.setItem(key, value);
+            } catch (e) {
+            }
+        };
+
+        localStorageUtils.getItem = function(key, value) {
+            return storage.getItem(key);
+        };
+
+        localStorageUtils.removeItem = function(key) {
+            storage.removeItem(key);
+        };
+
+    } else {
+        localStorageUtils.setItem = function(key, value) {
+            if (_initStorageDom()) {
+                alert('set');
+                _initStorageDom.dataDom.load(hname);
+                _initStorageDom.dataDom.setAttribute(key, value);
+                _initStorageDom.dataDom.save(hname);
+            }
+        };
+
+        localStorageUtils.getItem = function(key, value) {
+            if(_initStorageDom()){
+                alert('get');
+                _initStorageDom.dataDom.load(hname);
+                return _initStorageDom.dataDom.getAttribute(key);
+            }
+        };
+
+        localStorageUtils.removeItem = function(key) {
+            if(_initStorageDom()){
+                _initStorageDom.dataDom.load(hname);
+                _initStorageDom.dataDom.removeAttribute(key);
+                _initStorageDom.dataDom.save(hname);
+            }
+        };
+    }
+    </script>
+    <script>
+    document.getElementById("btn").onclick = function() {
+        localStorageUtils.setItem('name2', 'animabeaaar');
+        alert('save');
+    };
+    document.getElementById("btn2").onclick = function() {
+        var val = localStorageUtils.getItem('name2');
+        alert(val);
+    };
+    </script>
+</body>
+</html>
