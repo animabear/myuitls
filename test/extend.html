@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>extend</title>
+</head>
+<body>
+    <script src="../myutils.js"></script>
+    <script>
+        var obj = {
+            a: 1,
+            b: {
+                name: null,
+                age: 10
+            }
+        };
+
+        utils.extend(obj, {
+            a: 2,
+            b: {
+                name: 'xjj',
+                age: 18,
+                weigth: 100
+            }
+        });
+
+        console.log(obj);
+    </script>
+</body>
+</html>
