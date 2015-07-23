@@ -51,6 +51,22 @@ var utils = {
         }
     },
 
+    // 倒计时,second为倒计时秒数，text为单位（可以不传）
+    // Todo: 支持s和min单位
+    timer: function($ele, second, unit, callback) {
+        var sid;
+        var counter = function() {
+            unit ? $ele.html(second + unit) : $ele.html(second);
+            second -= 1;
+            sid = setTimeout(counter, 1000);
+            if (second < 0) {
+                clearTimeout(sid);
+                callback();
+            }
+        };
+        counter();
+    },
+
     _isArray: function(value) {
         return Object.prototype.toString.call(value) === '[object Array]';
     },
